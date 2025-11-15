@@ -48,6 +48,7 @@
     "sharp",
     "@prisma/engines",
     "prisma",
+    "@prisma/client",
     "unrs-resolver",
   ],
   "packages": {
