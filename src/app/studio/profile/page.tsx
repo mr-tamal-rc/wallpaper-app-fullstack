@@ -1,4 +1,5 @@
 import AvatarForm from "@/components/Forms/AvatarForm";
+import ProfileForm from "@/components/Forms/ProfileForm";
 import {
 	Card,
 	CardContent,
@@ -45,7 +46,9 @@ const page = async () => {
 						Profile Details
 					</CardTitle>
 				</CardHeader>
-				<CardContent>{/* <ProfileFormWrapper /> */}</CardContent>
+				<CardContent>
+					<ProfileForm userName={user.name} />
+				</CardContent>
 			</Card>
 		</section>
 	);
