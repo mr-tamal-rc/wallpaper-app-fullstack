@@ -5,14 +5,27 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/shadcnui/card";
+import { auth } from "@/lib/betterAuth/auth";
 import { Metadata } from "next";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
 	title: "Profile | Wallpaper App",
 	description: "Profile page of Wallpaper App",
 };
 
-const page = () => {
+const page = async () => {
+	const userDetails = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (userDetails === null) {
+		return redirect("/auth/login");
+	}
+
+	const { user } = userDetails;
+
 	return (
 		<section className="flex h-[80dvh] flex-col items-center justify-center gap-4">
 			<Card className="w-sm">
@@ -22,7 +35,7 @@ const page = () => {
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<AvatarForm />
+					<AvatarForm imgId={user.image} />
 				</CardContent>
 			</Card>
 

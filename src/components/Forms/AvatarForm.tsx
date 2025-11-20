@@ -7,15 +7,18 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
 import { FileSizeValidator } from "use-file-picker/validators";
-import ProfileAvatarImage from "../ProfileAvatarImage";
 import { Button } from "../shadcnui/button";
 
-const AvatarForm = () => {
+type AvatarFormProps = {
+	imgId: string | null | undefined;
+};
+
+const AvatarForm = ({ imgId }: AvatarFormProps) => {
 	const [isFile, setIsFile] = useState<boolean>(false);
 
 	const [isUploading, setIsUploading] = useState<boolean>(false);
 
-	// const { data } = authUserClient();
+	// const { refresh } = useRouter();
 
 	const { openFilePicker, filesContent, plainFiles, clear, errors } =
 		useFilePicker({
@@ -35,26 +38,38 @@ const AvatarForm = () => {
 	const handleImageSubmit = async () => {
 		setIsUploading(true);
 
-		await new Promise((r) => setTimeout(r, 1500));
+		//
 
 		const { isSuccess, message } = await updateAvatar(plainFiles[0]);
-
-		setIsUploading(false);
 
 		if (!isSuccess) {
 			toast.error(message);
 		}
 
+		await new Promise((r) => setTimeout(r, 1500));
+
 		if (isSuccess) {
 			toast.success(message);
+			// refresh();
 			clear();
 		}
+
+		setIsUploading(false);
 	};
+
 	return (
 		<>
 			<div className="flex flex-col justify-center gap-4">
 				<div className="grid place-items-center">
-					{!isFile && <ProfileAvatarImage />}
+					{!isFile && (
+						<Image
+							src={imgId ? `/upload/${imgId}` : `/upload/avatar.png`}
+							alt={imgId ?? ""}
+							width={240}
+							height={240}
+							className="aspect-square h-60 w-60 rounded-full object-cover"
+						/>
+					)}
 
 					{filesContent.map((file, idx) => (
 						<Image
