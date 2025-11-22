@@ -38,7 +38,7 @@ const updateAvatar = async (imgFile: File) => {
 			headers: await headers(),
 		});
 
-		revalidatePath("/", "layout");
+		revalidatePath("/studio", "layout");
 
 		return {
 			isSuccess: true,

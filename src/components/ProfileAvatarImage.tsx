@@ -1,5 +1,3 @@
-"use client";
-
 import { authClient } from "@/lib/betterAuth/auth-client";
 import Image from "next/image";
 
